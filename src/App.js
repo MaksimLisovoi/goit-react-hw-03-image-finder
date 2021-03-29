@@ -14,9 +14,11 @@ class App extends Component {
     query: "",
     page: 1,
     gallery: [],
+    total: 0,
     msg: "",
     isLoading: false,
     selectedImg: "",
+    // shouldRender: false,
   };
 
   async componentDidMount() {
@@ -39,11 +41,10 @@ class App extends Component {
 
     getFetch(query, page)
       .then((result) => {
-        this.setState({ shouldRender: result.length });
-
-        if (result.length) {
+        if (result.hits.length) {
           this.setState((prevState) => ({
-            gallery: [...prevState.gallery, ...result],
+            gallery: [...prevState.gallery, ...result.hits],
+            total: result.total,
             page: prevState.page + 1,
           }));
 
@@ -68,14 +69,18 @@ class App extends Component {
   };
 
   render() {
-    const { gallery, isLoading } = this.state;
+    const { gallery, isLoading, total } = this.state;
     const { getQuery, fetchGalleryItems } = this;
 
     return (
       <>
         <Searchbar onSubmit={getQuery} />
 
-        <ImageGallery gallery={gallery} onClick={fetchGalleryItems} />
+        <ImageGallery
+          total={total}
+          gallery={gallery}
+          onClick={fetchGalleryItems}
+        />
         {isLoading && (
           <Loader
             type="Circles"

@@ -7,11 +7,18 @@ async function getFetch(query, page) {
   let baseURL = `https://pixabay.com/api/`;
   let searchUrl = `/?q=${query}&page=${page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12`;
   let url = baseURL + searchUrl;
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
 
-  const response = await axios.get(url);
-  const data = await response.data;
-  const photos = await data.hits;
-  return photos;
+    return data;
+  } catch (err) {
+    throw err;
+  }
+  // const response = await axios.get(url);
+  // const data = response.data;
+
+  // return data;
 }
 
 export default { getFetch };

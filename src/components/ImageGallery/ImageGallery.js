@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import ImageGalleryItem from "./ImageGalleryItem";
+import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 
 import s from "./ImageGallery.module.css";
 import shortid from "shortid";
+
+import x from "../../services/pixabayApi";
+const { getFetch } = x;
 
 class ImageGallery extends Component {
   state = {
@@ -20,9 +23,11 @@ class ImageGallery extends Component {
     this.setState({ elem });
   };
   render() {
-    const { gallery, onClick } = this.props;
+    const { gallery, total, onClick } = this.props;
     const { elem, showModal } = this.state;
-    const shouldRenderLoadMoreBtn = gallery.length > 0;
+    const shouldRenderLoadMoreBtn =
+      gallery.length > 0 && gallery.length < total;
+
     return (
       <div className={s.GalleryContainer}>
         <ul className={s.ImageGallery}>

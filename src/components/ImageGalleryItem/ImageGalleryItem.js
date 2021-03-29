@@ -1,6 +1,6 @@
 import React from "react";
 
-import s from "./ImageGallery.module.css";
+import s from "../ImageGallery/ImageGallery.module.css";
 
 const ImageGalleryItem = ({ el, getElem }) => {
   const { webformatURL, largeImageURL } = el;
